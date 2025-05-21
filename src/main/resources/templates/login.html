@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign in | My App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+            padding: 40px 32px;
+            margin-top: 8vh;
+            width: 100%;
+            max-width: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin: 0 0 16px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #22223b;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px 0;
+            margin-top: 18px;
+            font-size: 1.1rem;
+            background: #333d6e;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.15s;
+        }
+        .btn:hover {
+            background: #23294a;
+        }
+        .btn.github {
+            background: #24292f;
+        }
+        .btn.github:hover {
+            background: #1b1f23;
+        }
+        .btn.h2 {
+            background: #336791;
+            margin-top: 10px;
+        }
+        .btn.h2:hover {
+            background: #24507a;
+        }
+        .separator {
+            margin: 24px 0 8px 0;
+            width: 100%;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media (max-width: 500px) {
+            .container { padding: 28px 8px; }
+            h1 { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Please sign in</h1>
+    <div class="separator"></div>
+
+    <!-- GitHub login button -->
+    <a th:href="@{/login-github}" class="btn github">
+        <span style="font-size:1.3em;">🔑</span>
+        Log in / Sign up with GitHub
+    </a>
+
+    <!-- H2 Database button -->
+    <a href="/h2" class="btn h2" target="_blank" rel="noopener">
+        <span style="font-size:1.2em;">🗄️</span>
+        Open H2 Database Console
+    </a>
+</div>
+</body>
+</html>

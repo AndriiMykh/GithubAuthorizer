@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub OAuth Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #f4f6fa;
+            font-family: 'Roboto', system-ui, sans-serif;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 700px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            margin: 40px auto 0 auto;
+            padding: 40px 28px 32px 28px;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #22223b;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        .welcome-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f2f3ff;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 12px rgba(110,115,201,0.04);
+            font-size: 1.08rem;
+        }
+        .logout-btn {
+            text-decoration: none;
+            color: #fff;
+            background: #333d6e;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background 0.16s;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .logout-btn:hover {
+            background: #23294a;
+        }
+        h2 {
+            font-size: 1.25rem;
+            color: #334155;
+            margin-top: 24px;
+            margin-bottom: 10px;
+            letter-spacing: 0.01em;
+        }
+        #users {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(52,58,92,0.06);
+        }
+        #users th, #users td {
+            border: none;
+            padding: 0.7rem 1rem;
+            text-align: left;
+        }
+        #users thead {
+            background: #e3e7fa;
+        }
+        #users th {
+            color: #475569;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.01em;
+        }
+        #users tbody tr {
+            transition: background 0.14s;
+        }
+        #users tbody tr:hover {
+            background: #e8ebf7;
+        }
+        #users img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: .7rem;
+            border: 2px solid #c7d2fe;
+            background: #fff;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 18px 4px; }
+            h1 { font-size: 1.2rem; }
+            h2 { font-size: 1rem; }
+            #users th, #users td { padding: 0.45rem 0.4rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>GitHub OAuth Demo</h1>
+    <div class="welcome-bar">
+        <span>
+            👋 Welcome, <span sec:authentication="name">user</span>!
+        </span>
+        <a href="/logout" class="logout-btn">
+            🚪 Logout
+        </a>
+    </div>
+
+    <h2>Known users</h2>
+    <table id="users">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- JS will inject rows here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    async function loadUsers() {
+        const resp = await fetch('/api/users');
+        const users = await resp.json();
+        const tbody = document.querySelector('#users tbody');
+        tbody.innerHTML = '';
+        users.forEach((u, i) => {
+            const row = tbody.insertRow();
+            row.insertCell().textContent = i + 1;
+            row.insertCell().innerHTML = `<img src="${u.avatarUrl}" alt="avatar">${u.login}`;
+            row.insertCell().textContent = u.name || '';
+        });
+    }
+    loadUsers();
+</script>
+</body>
+</html>
